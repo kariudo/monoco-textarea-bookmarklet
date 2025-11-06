@@ -145,4 +145,4 @@ Suggestions and improvements are welcome! Feel free to open an issue or submit a
 ## 🙏 Credits
 
 - [Monaco Editor](https://microsoft.github.io/monaco-editor/) by Microsoft
-- Inspired by the need for better textarea editing across the web
+- Inspired by the need for better textarea editing across the web and my desire to stop copy pasting code in textarea
