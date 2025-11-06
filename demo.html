@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monaco Editor Bookmarklet</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #007acc;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+        .bookmarklet {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #007acc;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin: 10px 0;
+            cursor: move;
+        }
+        .bookmarklet:hover {
+            background: #005a9e;
+        }
+        code {
+            background: #e0e0e0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .instructions {
+            background: #fff;
+            padding: 15px;
+            border-left: 4px solid #007acc;
+            margin: 15px 0;
+        }
+        .test-area {
+            margin: 20px 0;
+        }
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 10px;
+            font-family: monospace;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .feature-highlight {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Monaco TextArea Bookmarklet</h1>
+    
+    <div class="section">
+        <h2>📌 The Bookmarklet</h2>
+        <p>Drag this link to your bookmarks bar:</p>
+        <a href="javascript:(function(){if(window.monacoEditorInstances){var existing=window.monacoEditorInstances.find(function(inst){return inst.textarea===document.activeElement;});if(existing){alert('This textarea already has Monaco editor active');return;}}var t=document.activeElement;if(!t||t.tagName!=='TEXTAREA'){alert('Please focus a textarea first');return;}var originalDisplay=t.style.display;var originalVisibility=t.style.visibility;var originalPosition=t.style.position;var originalWidth=t.style.width;var originalHeight=t.style.height;var computedStyle=window.getComputedStyle(t);var w=t.offsetWidth;var h=Math.max(t.offsetHeight,300);t.style.position='absolute';t.style.visibility='hidden';t.style.pointerEvents='none';var wrapper=document.createElement('div');wrapper.style.position='relative';wrapper.style.width=w+'px';wrapper.style.height=h+'px';t.parentNode.insertBefore(wrapper,t);wrapper.appendChild(t);var c=document.createElement('div');c.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;border:1px solid #ccc;box-sizing:border-box;';wrapper.appendChild(c);var fab=document.createElement('button');fab.innerHTML='✕';fab.title='Close Monaco Editor';fab.style.cssText='position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:#007acc;color:white;border:none;font-size:18px;cursor:pointer;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:background 0.2s;';fab.onmouseover=function(){this.style.background='#005a9e';};fab.onmouseout=function(){this.style.background='#007acc';};wrapper.appendChild(fab);if(!window.monacoEditorInstances){window.monacoEditorInstances=[];}var instance={textarea:t,wrapper:wrapper,container:c,fab:fab,editor:null,originalStyles:{display:originalDisplay,visibility:originalVisibility,position:originalPosition,width:originalWidth,height:originalHeight}};window.monacoEditorInstances.push(instance);var loadMonaco=function(){if(!document.getElementById('monaco-editor-css')){var l=document.createElement('link');l.id='monaco-editor-css';l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css';document.head.appendChild(l);}if(window.monaco){initEditor();return;}if(window.monacoLoading){var checkMonaco=setInterval(function(){if(window.monaco){clearInterval(checkMonaco);initEditor();}},100);return;}window.monacoLoading=true;var sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js';sc.onload=function(){require.config({paths:{'vs':'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs'}});require(['vs/editor/editor.main'],function(){window.monacoLoading=false;initEditor();});};document.body.appendChild(sc);};var initEditor=function(){var e=monaco.editor.create(c,{value:t.value,language:'javascript',theme:'vs-dark',automaticLayout:true,minimap:{enabled:false},scrollBeyondLastLine:false});instance.editor=e;var syncToTextarea=function(){var newValue=e.getValue();if(t.value!==newValue){t.value=newValue;var evt=new Event('input',{bubbles:true,cancelable:true});t.dispatchEvent(evt);var changeEvt=new Event('change',{bubbles:true,cancelable:true});t.dispatchEvent(changeEvt);if(typeof angular!=='undefined'){var ngEvt=new Event('ng-change',{bubbles:true});t.dispatchEvent(ngEvt);var scope=angular.element(t).scope();if(scope){scope.$apply();}}}};e.onDidChangeModelContent(function(){syncToTextarea();});var removeEditor=function(){if(instance.editor){instance.editor.dispose();}wrapper.parentNode.insertBefore(t,wrapper);wrapper.remove();t.style.display=instance.originalStyles.display||'';t.style.visibility=instance.originalStyles.visibility||'';t.style.position=instance.originalStyles.position||'';t.style.width=instance.originalStyles.width||'';t.style.height=instance.originalStyles.height||'';t.style.pointerEvents='';var idx=window.monacoEditorInstances.indexOf(instance);if(idx>-1){window.monacoEditorInstances.splice(idx,1);}};fab.onclick=removeEditor;};loadMonaco();})();" class="bookmarklet">🎨 Monaco Editor</a>
+        
+        <div class="feature-highlight">
+            <strong>✨ New Features:</strong>
+            <ul style="margin: 10px 0 0 0;">
+                <li>✓ Preserves Angular/React bindings by keeping textarea in DOM</li>
+                <li>✓ Triggers proper input/change events for framework compatibility</li>
+                <li>✓ Close button (✕) to restore original textarea</li>
+                <li>✓ Multiple editors can be active on the same page</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📖 How to Use</h2>
+        <div class="instructions">
+            <ol>
+                <li><strong>Install:</strong> Drag the blue "Monaco Editor" button above to your browser's bookmarks bar</li>
+                <li><strong>Navigate:</strong> Go to any page with a textarea</li>
+                <li><strong>Focus:</strong> Click inside the textarea you want to enhance</li>
+                <li><strong>Activate:</strong> Click the bookmarklet in your bookmarks bar</li>
+                <li><strong>Edit:</strong> The textarea will be overlaid with Monaco Editor</li>
+                <li><strong>Close:</strong> Click the ✕ button in the top-right corner to restore the original textarea</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🧪 Test It Here</h2>
+        <p>Try it on this sample form:</p>
+        <form class="test-area" onsubmit="alert('Form submitted with content: ' + this.testarea.value); return false;">
+            <textarea name="testarea" id="testarea" placeholder="Click here, then click the bookmarklet...">// Try the Monaco Editor bookmarklet!
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+console.log(greet('World'));</textarea>
+            <br><br>
+            <button type="submit">Submit Form</button>
+        </form>
+    </div>
+</body>
+</html>
