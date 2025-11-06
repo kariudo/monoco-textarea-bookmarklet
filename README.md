@@ -53,18 +53,19 @@ The bookmarklet is designed to work seamlessly with modern JavaScript frameworks
 
 ### Architecture
 
-```
-┌─────────────────────────────┐
-│ Wrapper (relative)          │
-│  ┌──────────────────────┐   │
-│  │ Textarea (hidden)    │   │
-│  └──────────────────────┘   │
-│  ┌──────────────────────┐   │
-│  │ Monaco Container     │   │
-│  │ (absolute, overlaid) │   │
-│  └──────────────────────┘   │
-│            [✕] Close Button  │
-└─────────────────────────────┘
+```mermaid
+graph TD
+    subgraph W["Wrapper – position: relative"]
+        T["Textarea (hidden)"]
+        M["Monaco Container<br/>(absolute, overlaid)"]
+        X["✕ Close Button"]
+    end
+
+    style W fill:#f8f8f8,stroke:#333,stroke-width:2px
+    style T fill:#ffffff,stroke:#999,stroke-dasharray:3 3
+    style M fill:#eef5ff,stroke:#339
+    style X fill:#ffefef,stroke:#933
+
 ```
 
 ## 🎨 Customization
@@ -135,7 +136,7 @@ monaco.editor.create(container, {
 
 ## 📝 License
 
-This bookmarklet is provided as-is for personal and educational use. Monaco Editor is licensed under the MIT License by Microsoft.
+See [License](./license.md)
 
 ## 🤝 Contributing
 
