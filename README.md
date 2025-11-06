@@ -136,7 +136,7 @@ monaco.editor.create(container, {
 
 ## 📝 License
 
-See [License](./license.md)
+See [License](./LICENSE)
 
 ## 🤝 Contributing
 
