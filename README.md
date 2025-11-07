@@ -133,6 +133,7 @@ monaco.editor.create(container, {
 - Only works with standard textareas (not rich text editors or contenteditable elements)
 - Requires internet connection to load Monaco from CDN (first use only)
 - May not work on pages with strict Content Security Policies
+- May not work with fields inside of iFrames or similar nested sub-documents
 - Monaco Editor is ~2MB and loads from CDN on first use
 
 ## 🔒 Privacy & Security
