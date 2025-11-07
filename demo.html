@@ -1,125 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monaco Editor Bookmarklet</title>
+    <title>Monaco TextArea Bookmarklet</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            line-height: 1.6;
+            padding: 2rem 1rem;
         }
-        h1 {
-            color: #333;
-            border-bottom: 2px solid #007acc;
-            padding-bottom: 10px;
+        .container {
+            max-width: 900px;
         }
-        .section {
-            margin: 30px 0;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 8px;
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
         }
-        .bookmarklet {
+        .bookmarklet-link {
             display: inline-block;
-            padding: 12px 24px;
-            background: #007acc;
-            color: white;
+            padding: 0.75rem 1.5rem;
+            background: var(--pico-primary-background);
+            color: var(--pico-primary-inverse);
             text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            margin: 10px 0;
-            cursor: move;
+            border-radius: var(--pico-border-radius);
+            font-weight: 600;
+            transition: background 0.2s;
+            margin: 1rem 0;
         }
-        .bookmarklet:hover {
-            background: #005a9e;
+        .bookmarklet-link:hover {
+            background: var(--pico-primary-hover-background);
         }
-        code {
-            background: #e0e0e0;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-        }
-        .instructions {
-            background: #fff;
-            padding: 15px;
-            border-left: 4px solid #007acc;
-            margin: 15px 0;
-        }
-        .test-area {
-            margin: 20px 0;
+        .demo-section {
+            margin-top: 2rem;
         }
         textarea {
-            width: 100%;
-            min-height: 150px;
-            padding: 10px;
-            font-family: monospace;
-            border: 2px solid #ddd;
-            border-radius: 4px;
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
         }
-        .warning {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 15px 0;
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
         }
-        .feature-highlight {
-            background: #d4edda;
-            border-left: 4px solid #28a745;
-            padding: 15px;
-            margin: 15px 0;
+        .github-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
         }
     </style>
 </head>
 <body>
-    <h1>Monaco TextArea Bookmarklet</h1>
-    
-    <div class="section">
-        <h2>📌 The Bookmarklet</h2>
-        <p>Drag this link to your bookmarks bar:</p>
-        <a href="javascript:(function(){if(window.monacoEditorInstances){var existing=window.monacoEditorInstances.find(function(inst){return inst.textarea===document.activeElement;});if(existing){alert('This textarea already has Monaco editor active');return;}}var t=document.activeElement;if(!t||t.tagName!=='TEXTAREA'){alert('Please focus a textarea first');return;}var originalDisplay=t.style.display;var originalVisibility=t.style.visibility;var originalPosition=t.style.position;var originalWidth=t.style.width;var originalHeight=t.style.height;var computedStyle=window.getComputedStyle(t);var w=t.offsetWidth;var h=Math.max(t.offsetHeight,300);t.style.position='absolute';t.style.visibility='hidden';t.style.pointerEvents='none';var wrapper=document.createElement('div');wrapper.style.position='relative';wrapper.style.width=w+'px';wrapper.style.height=h+'px';t.parentNode.insertBefore(wrapper,t);wrapper.appendChild(t);var c=document.createElement('div');c.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;border:1px solid #ccc;box-sizing:border-box;';wrapper.appendChild(c);var fab=document.createElement('button');fab.innerHTML='✕';fab.title='Close Monaco Editor';fab.style.cssText='position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:#007acc;color:white;border:none;font-size:18px;cursor:pointer;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:background 0.2s;';fab.onmouseover=function(){this.style.background='#005a9e';};fab.onmouseout=function(){this.style.background='#007acc';};wrapper.appendChild(fab);if(!window.monacoEditorInstances){window.monacoEditorInstances=[];}var instance={textarea:t,wrapper:wrapper,container:c,fab:fab,editor:null,originalStyles:{display:originalDisplay,visibility:originalVisibility,position:originalPosition,width:originalWidth,height:originalHeight}};window.monacoEditorInstances.push(instance);var loadMonaco=function(){if(!document.getElementById('monaco-editor-css')){var l=document.createElement('link');l.id='monaco-editor-css';l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css';document.head.appendChild(l);}if(window.monaco){initEditor();return;}if(window.monacoLoading){var checkMonaco=setInterval(function(){if(window.monaco){clearInterval(checkMonaco);initEditor();}},100);return;}window.monacoLoading=true;var sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js';sc.onload=function(){require.config({paths:{'vs':'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs'}});require(['vs/editor/editor.main'],function(){window.monacoLoading=false;initEditor();});};document.body.appendChild(sc);};var initEditor=function(){var e=monaco.editor.create(c,{value:t.value,language:'javascript',theme:'vs-dark',automaticLayout:true,minimap:{enabled:false},scrollBeyondLastLine:false});instance.editor=e;var syncToTextarea=function(){var newValue=e.getValue();if(t.value!==newValue){t.value=newValue;var evt=new Event('input',{bubbles:true,cancelable:true});t.dispatchEvent(evt);var changeEvt=new Event('change',{bubbles:true,cancelable:true});t.dispatchEvent(changeEvt);if(typeof angular!=='undefined'){var ngEvt=new Event('ng-change',{bubbles:true});t.dispatchEvent(ngEvt);var scope=angular.element(t).scope();if(scope){scope.$apply();}}}};e.onDidChangeModelContent(function(){syncToTextarea();});var removeEditor=function(){if(instance.editor){instance.editor.dispose();}wrapper.parentNode.insertBefore(t,wrapper);wrapper.remove();t.style.display=instance.originalStyles.display||'';t.style.visibility=instance.originalStyles.visibility||'';t.style.position=instance.originalStyles.position||'';t.style.width=instance.originalStyles.width||'';t.style.height=instance.originalStyles.height||'';t.style.pointerEvents='';var idx=window.monacoEditorInstances.indexOf(instance);if(idx>-1){window.monacoEditorInstances.splice(idx,1);}};fab.onclick=removeEditor;};loadMonaco();})();" class="bookmarklet">🎨 Monaco Editor</a>
-        
-        <div class="feature-highlight">
-            <strong>✨ New Features:</strong>
-            <ul style="margin: 10px 0 0 0;">
-                <li>✓ Preserves Angular/React bindings by keeping textarea in DOM</li>
-                <li>✓ Triggers proper input/change events for framework compatibility</li>
-                <li>✓ Close button (✕) to restore original textarea</li>
-                <li>✓ Multiple editors can be active on the same page</li>
-            </ul>
+    <main class="container">
+        <div class="hero">
+            <h1>Monaco Editor Bookmarklet</h1>
+            <p>Transform any textarea into a powerful Monaco Editor with a single click!</p>
         </div>
-    </div>
 
-    <div class="section">
-        <h2>📖 How to Use</h2>
-        <div class="instructions">
-            <ol>
-                <li><strong>Install:</strong> Drag the blue "Monaco Editor" button above to your browser's bookmarks bar</li>
-                <li><strong>Navigate:</strong> Go to any page with a textarea</li>
-                <li><strong>Focus:</strong> Click inside the textarea you want to enhance</li>
-                <li><strong>Activate:</strong> Click the bookmarklet in your bookmarks bar</li>
-                <li><strong>Edit:</strong> The textarea will be overlaid with Monaco Editor</li>
-                <li><strong>Close:</strong> Click the ✕ button in the top-right corner to restore the original textarea</li>
-            </ol>
-        </div>
-    </div>
+        <article>
+            <header>
+                <h2>Get the Bookmarklet</h2>
+            </header>
+            <p>Drag this link to your bookmarks bar:</p>
+            <p style="text-align: center;">
+                <a href="javascript:(function(){if(window.monacoEditorInstances){var existing=window.monacoEditorInstances.find(function(inst){return inst.textarea===document.activeElement;});if(existing){alert('This textarea already has Monaco editor active');return;}}var t=document.activeElement;if(!t||t.tagName!=='TEXTAREA'){alert('Please focus a textarea first');return;}var originalDisplay=t.style.display;var originalVisibility=t.style.visibility;var originalPosition=t.style.position;var originalWidth=t.style.width;var originalHeight=t.style.height;var computedStyle=window.getComputedStyle(t);var w=t.offsetWidth;var h=Math.max(t.offsetHeight,300);t.style.position='absolute';t.style.visibility='hidden';t.style.pointerEvents='none';var wrapper=document.createElement('div');wrapper.style.position='relative';wrapper.style.width=w+'px';wrapper.style.height=h+'px';t.parentNode.insertBefore(wrapper,t);wrapper.appendChild(t);var c=document.createElement('div');c.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;border:1px solid #ccc;box-sizing:border-box;';wrapper.appendChild(c);var fab=document.createElement('button');fab.innerHTML='✕';fab.title='Close Monaco Editor';fab.style.cssText='position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:#007acc;color:white;border:none;font-size:18px;cursor:pointer;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:background 0.2s;';fab.onmouseover=function(){this.style.background='#005a9e';};fab.onmouseout=function(){this.style.background='#007acc';};wrapper.appendChild(fab);if(!window.monacoEditorInstances){window.monacoEditorInstances=[];}var instance={textarea:t,wrapper:wrapper,container:c,fab:fab,editor:null,originalStyles:{display:originalDisplay,visibility:originalVisibility,position:originalPosition,width:originalWidth,height:originalHeight}};window.monacoEditorInstances.push(instance);var loadMonaco=function(){if(!document.getElementById('monaco-editor-css')){var l=document.createElement('link');l.id='monaco-editor-css';l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/editor/editor.main.min.css';document.head.appendChild(l);}if(window.monaco){initEditor();return;}if(window.monacoLoading){var checkMonaco=setInterval(function(){if(window.monaco){clearInterval(checkMonaco);initEditor();}},100);return;}window.monacoLoading=true;var sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js';sc.onload=function(){require.config({paths:{'vs':'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs'}});require(['vs/editor/editor.main'],function(){window.monacoLoading=false;initEditor();});};document.body.appendChild(sc);};var initEditor=function(){var e=monaco.editor.create(c,{value:t.value,language:'javascript',theme:'vs-dark',automaticLayout:true,minimap:{enabled:false},scrollBeyondLastLine:false});instance.editor=e;var syncToTextarea=function(){var newValue=e.getValue();if(t.value!==newValue){t.value=newValue;var evt=new Event('input',{bubbles:true,cancelable:true});t.dispatchEvent(evt);var changeEvt=new Event('change',{bubbles:true,cancelable:true});t.dispatchEvent(changeEvt);if(typeof angular!=='undefined'){var ngEvt=new Event('ng-change',{bubbles:true});t.dispatchEvent(ngEvt);var scope=angular.element(t).scope();if(scope){scope.$apply();}}}};e.onDidChangeModelContent(function(){syncToTextarea();});var removeEditor=function(){if(instance.editor){instance.editor.dispose();}wrapper.parentNode.insertBefore(t,wrapper);wrapper.remove();t.style.display=instance.originalStyles.display||'';t.style.visibility=instance.originalStyles.visibility||'';t.style.position=instance.originalStyles.position||'';t.style.width=instance.originalStyles.width||'';t.style.height=instance.originalStyles.height||'';t.style.pointerEvents='';var idx=window.monacoEditorInstances.indexOf(instance);if(idx>-1){window.monacoEditorInstances.splice(idx,1);}};fab.onclick=removeEditor;};loadMonaco();})();" class="bookmarklet-link">📝 Monaco Editor</a>
+            </p>
+            <p><small>Click and drag the link above to your bookmarks bar to install it.</small></p>
+        </article>
 
-    <div class="section">
-        <h2>🧪 Test It Here</h2>
-        <p>Try it on this sample form:</p>
-        <form class="test-area" onsubmit="alert('Form submitted with content: ' + this.testarea.value); return false;">
-            <textarea name="testarea" id="testarea" placeholder="Click here, then click the bookmarklet...">// Try the Monaco Editor bookmarklet!
-function greet(name) {
-    return `Hello, ${name}!`;
+        <article class="demo-section">
+            <header>
+                <h2>Try it here!</h2>
+            </header>
+            <p>Click inside the textarea below, then click the bookmarklet in your bookmarks bar to activate Monaco Editor:</p>
+            <label for="demo-textarea">
+                Sample Code:
+                <textarea id="demo-textarea" placeholder="Click here, then use the bookmarklet...">function hello() {
+    console.log("Hello, World!");
+    return "This is a test textarea";
 }
 
-console.log(greet('World'));</textarea>
-            <br><br>
-            <button type="submit">Submit Form</button>
-        </form>
-    </div>
+// Try the bookmarklet:
+// 1. Click inside this textarea
+// 2. Click the Monaco Editor bookmark
+// 3. Enjoy VS Code-like editing!
+
+const features = [
+    "Syntax highlighting",
+    "Auto-completion",
+    "Multiple cursors",
+    "Code folding"
+];
+
+features.forEach(feature => {
+    console.log(`✓ ${feature}`);
+});</textarea>
+            </label>
+        </article>
+
+        <article>
+            <header>
+                <h3>How to Use</h3>
+            </header>
+            <ol>
+                <li>Drag the bookmarklet link to your bookmarks bar</li>
+                <li>Navigate to any page with a textarea</li>
+                <li>Click inside the textarea to focus it</li>
+                <li>Click the bookmarklet in your bookmarks bar</li>
+                <li>Edit with Monaco Editor features!</li>
+                <li>Click the ✕ button to close and return to the original textarea</li>
+            </ol>
+        </article>
+
+        <article>
+            <header>
+                <h3>Features</h3>
+            </header>
+            <ul>
+                <li>✅ Full Monaco Editor (VS Code's editor engine)</li>
+                <li>✅ Syntax highlighting for JavaScript</li>
+                <li>✅ Dark theme for comfortable coding</li>
+                <li>✅ Framework-compatible (Angular, React, Vue, etc.)</li>
+                <li>✅ Dispatches proper input/change events</li>
+                <li>✅ Close button to toggle back to textarea</li>
+                <li>✅ Works with form submissions</li>
+            </ul>
+        </article>
+
+        <footer style="text-align: center; margin-top: 3rem;">
+            <a href="https://github.com/kariudo/monoco-textarea-bookmarklet" class="github-link" target="_blank" rel="noopener noreferrer">
+                <svg class="github-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                View on GitHub
+            </a>
+            <p><small>Bookmarklet created by @Kariudo • Monaco Editor by Microsoft</small></p>
+        </footer>
+    </main>
 </body>
 </html>
