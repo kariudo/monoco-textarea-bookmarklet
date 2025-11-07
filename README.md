@@ -16,7 +16,7 @@ javascript:(function(){if(window.monacoEditorInstances){var existing=window.mona
 3. Paste the entire JavaScript code above as the URL
 4. Save it
 
-Alternatively, you can drag the link from the [demo page](https://htmlpreview.github.io/?https://github.com/kariudo/monoco-textarea-bookmarklet/master/demo.html) directly to your bookmarks bar.
+Alternatively, you can drag the link from the [demo page](https://kariudo.dev/monoco-textarea-bookmarklet/demo.html) directly to your bookmarks bar.
 
 ## 📖 How to Use
 
