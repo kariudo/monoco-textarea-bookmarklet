@@ -75,7 +75,8 @@
             <p>Click inside the textarea below, then click the bookmarklet in your bookmarks bar to activate Monaco Editor:</p>
             <label for="demo-textarea">
                 Sample Code:
-                <textarea id="demo-textarea" placeholder="Click here, then use the bookmarklet...">function hello() {
+                <form class="test-area" onsubmit="alert('Form submitted with content: ' + this.testarea.value); return false;">
+                    <textarea name="testarea" id="testarea" placeholder="Click here, then click the bookmarklet...">function hello() {
     console.log("Hello, World!");
     return "This is a test textarea";
 }
@@ -95,6 +96,9 @@ const features = [
 features.forEach(feature => {
     console.log(`✓ ${feature}`);
 });</textarea>
+                    <br><br>
+                    <button type="submit">Submit Form</button>
+                </form>
             </label>
         </article>
 
