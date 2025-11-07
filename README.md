@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logo.svg" alt="Monaco Bookmarklet Logo" width="200">
+</p>
+
 # Monaco TextArea Bookmarklet
 
 Convert any textarea into a full-featured Monaco Editor (VS Code's editor engine) with a single click!
